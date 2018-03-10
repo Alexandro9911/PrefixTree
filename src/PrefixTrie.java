@@ -74,7 +74,7 @@ public class PrefixTrie {
         }
     }
 
-    public List<String> findAll(String prefix) {
+    public List<String> findAll(String prefix) { // недоделано
         List<String> answ = new ArrayList<>();
         boolean check = PrefixTrie.this.find(prefix);
         Node point = root;

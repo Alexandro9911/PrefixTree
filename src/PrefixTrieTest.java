@@ -54,6 +54,7 @@ public class PrefixTrieTest {
         a.input(str);
         List<Node> answ = a.listNodes(str);
         assertEquals(answ, a.listNodes(str));
+
     }
 }
 
