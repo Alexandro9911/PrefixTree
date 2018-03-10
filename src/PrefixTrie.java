@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -7,6 +8,20 @@ public class PrefixTrie {
 
     Node root = new Node();
 
+    public List<Node> listNodes(String str) {
+        Node point = root;
+        List<Node> nodes = new ArrayList<>();
+        if (str.length() == 0) throw new IllegalArgumentException();
+        for (char part : str.toLowerCase().toCharArray()) {
+            if (!point.child.containsKey(part)) {
+                break;
+            } else {
+                point = point.child.get(part);
+                nodes.add(point);
+            }
+        }
+        return nodes;
+    }
 
     public boolean hasChild(Node node) {
         Node point = node;
@@ -16,7 +31,7 @@ public class PrefixTrie {
         return has;
     }
 
-    public void input(String str) { //  1 добавление строк в дерево
+    public boolean input(String str) {
         Node point = root;
         for (Character PartKey : str.toLowerCase().toCharArray()) {
             if (!point.child.containsKey(PartKey)) {
@@ -24,9 +39,10 @@ public class PrefixTrie {
             }
             point = point.child.get(PartKey);
         }
+        return true;
     }
 
-    public boolean find(String str) { // 2 поиск строки в дереве
+    public boolean find(String str) {
         Node point = root;
         for (char part : str.toLowerCase().toCharArray()) {
             if (!point.child.containsKey(part)) {
@@ -38,22 +54,14 @@ public class PrefixTrie {
         return true;
     }
 
-    public String delete(String str) {
-        boolean check = PrefixTrie.this.find(str); // 3 проверяем существует ли вообще такая строка которую надо удалить
+    public boolean delete(String str) {
+        boolean check = PrefixTrie.this.find(str);
         Node point = root;
         if (!check) {
-            return "string not exist";
+            return false;
         } else {
-            ArrayList<Node> nodes = new ArrayList<>();
-            for (char part : str.toLowerCase().toCharArray()) { // создаем список адресов префикслв строки которую надо удалить
-                if (!point.child.containsKey(part)) {
-                    return "string not exist";
-                } else {
-                    point = point.child.get(part);
-                    nodes.add(point);
-                }
-            }
-            for (int m = nodes.size() - 1; m > 0; m--) { // последовательно удаляем все символы с конца
+            List<Node> nodes = listNodes(str);
+            for (int m = nodes.size() - 1; m > 0; m--) {
                 point = nodes.get(m);
                 if (!PrefixTrie.this.hasChild(point)) {
                     point.child.clear();
@@ -62,20 +70,28 @@ public class PrefixTrie {
                     point.child.replace(point.child.firstKey(), childNode);
                 }
             }
-            return "string was successful deleted";
+            return true;
         }
     }
 
-    public List<String> findAll(String prefix) { // 4  поиск всех строк с заданным префиксом
+    public List<String> findAll(String prefix) {
         List<String> answ = new ArrayList<>();
         boolean check = PrefixTrie.this.find(prefix);
         Node point = root;
         StringBuilder builder = new StringBuilder();
-        String completedString;
         if (!check) {
             answ.add("prefix not exist");
             return answ;
         } else {
+            String completedString;
+            List<Node> nodes = listNodes(prefix);
+            for (int m = nodes.size(); m > 0; m--) {
+                point = nodes.get(m);
+                List<Node> variants = nodes.subList(0, m);
+                for (int i = variants.size() - 1; i > 0; i--) {
+
+                }
+            }
          /*   for (char part : prefix.toLowerCase().toCharArray()) {
                 List<Node> listOfNodes = new ArrayList<>();
                 listOfNodes.addAll(point.child.values());
@@ -89,3 +105,4 @@ public class PrefixTrie {
         return answ;
     }
 }
+
