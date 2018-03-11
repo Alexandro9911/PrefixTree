@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -16,9 +17,13 @@ public class PrefixTrieTest {
     public void delete() {
         PrefixTrie a = new PrefixTrie();
         a.input("abcd");
+        a.input("abfg");
         a.input("abqw");
-        a.delete("abqw");
-        assertEquals(false, !a.find("abqw"));
+        a.input("qwerty");
+        assertEquals(true, a.delete("abcd"));
+        assertEquals(false, a.find("abcd"));
+        assertEquals(true, a.find("abfg"));
+        assertEquals(true, a.find("abqw"));
     }
 
     @Test
@@ -54,7 +59,21 @@ public class PrefixTrieTest {
         a.input(str);
         List<Node> answ = a.listNodes(str);
         assertEquals(answ, a.listNodes(str));
+    }
 
+    @Test
+    public void findAll() {
+        PrefixTrie a = new PrefixTrie();
+        a.input("qwerty");
+        a.input("abcd");
+        a.input("abqw");
+        a.input("abfg");
+        List<String> answ = new ArrayList<>();
+        answ.add("abcd");
+        answ.add("abqw");
+        answ.add("abfg");
+        assertEquals(true, a.find("abcd"));
+        assertEquals(answ, a.findAll("a"));
     }
 }
 

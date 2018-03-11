@@ -1,16 +1,20 @@
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 
-public class PrefixTrie {
+public final class PrefixTrie {
 
     Node root = new Node();
 
-    public List<Node> listNodes(String str) {
+    /**
+     * @param str it is a string in tree
+     * @return list of nodes of each char of parameter str
+     */
+
+    public ArrayList<Node> listNodes(String str) {
         Node point = root;
-        List<Node> nodes = new ArrayList<>();
+        ArrayList<Node> nodes = new ArrayList<>();
         if (str.length() == 0) throw new IllegalArgumentException();
         for (char part : str.toLowerCase().toCharArray()) {
             if (!point.child.containsKey(part)) {
@@ -23,6 +27,12 @@ public class PrefixTrie {
         return nodes;
     }
 
+    /**
+     *
+     * @param node -- node
+     * @return has this node children or not
+     */
+
     public boolean hasChild(Node node) {
         Node point = node;
         boolean has;
@@ -30,6 +40,12 @@ public class PrefixTrie {
         else has = true;
         return has;
     }
+
+    /**
+     *
+     * @param str string which you want to enter in tree
+     * @return Successful or not
+     */
 
     public boolean input(String str) {
         Node point = root;
@@ -42,6 +58,12 @@ public class PrefixTrie {
         return true;
     }
 
+    /**
+     *
+     * @param str your string which you want to find
+     * @return exist this string in tree or not
+     */
+
     public boolean find(String str) {
         Node point = root;
         for (char part : str.toLowerCase().toCharArray()) {
@@ -53,6 +75,12 @@ public class PrefixTrie {
         }
         return true;
     }
+
+    /**
+     *
+     * @param str string which you want to delete
+     * @return Successful or not
+     */
 
     public boolean delete(String str) {
         boolean check = PrefixTrie.this.find(str);
@@ -74,35 +102,30 @@ public class PrefixTrie {
         }
     }
 
-    public List<String> findAll(String prefix) { // недоделано
-        List<String> answ = new ArrayList<>();
-        boolean check = PrefixTrie.this.find(prefix);
-        Node point = root;
-        StringBuilder builder = new StringBuilder();
-        if (!check) {
-            answ.add("prefix not exist");
-            return answ;
-        } else {
-            String completedString;
-            List<Node> nodes = listNodes(prefix);
-            for (int m = nodes.size(); m > 0; m--) {
-                point = nodes.get(m);
-                List<Node> variants = nodes.subList(0, m);
-                for (int i = variants.size() - 1; i > 0; i--) {
+    /**
+     *
+     * @param str its a first symbol of strings
+     * @return all strings which have first letter str
+     */
 
-                }
+    public List<String> findAll(String str) { // не готово еще
+        boolean check = PrefixTrie.this.find(str);
+        List<String> answ = new ArrayList<>();
+        Node currentNode = root;
+        if (!check) throw new IllegalArgumentException();
+        else {
+            StringBuilder builder = new StringBuilder();
+            List<Node> nodes = listNodes(str);
+            builder.append(nodes.get(0).child.firstKey());
+            currentNode = nodes.get(0);
+            Object[] keyArr = currentNode.child.keySet().toArray();
+            builder.append(keyArr[0]);
+            if (hasChild(currentNode) && currentNode.child.values().size() == 1) {
+
             }
-         /*   for (char part : prefix.toLowerCase().toCharArray()) {
-                List<Node> listOfNodes = new ArrayList<>();
-                listOfNodes.addAll(point.child.values());
-                for (Node oneOfNodes : listOfNodes)
-                    if (oneOfNodes.child.containsKey(part)) {
-                        builder.append(part);
-                        point = point.child.get(part);
-                    }
-            } */
+            answ.add(builder.toString());
+            return answ;
         }
-        return answ;
     }
 }
 
