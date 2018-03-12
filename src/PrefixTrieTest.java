@@ -1,11 +1,33 @@
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class PrefixTrieTest {
+    @Test
+    public void childNodes() {
+        PrefixTrie a = new PrefixTrie();
+        Node point = a.root;
+        a.input("abcd");
+        a.input("qwerty");
+        Collection<Node> answ = a.root.childNodes();
+        assertEquals(answ, a.root.childNodes());
+    }
+
+    @Test
+    public void hasChildNode() {
+        PrefixTrie a = new PrefixTrie();
+        Node point = a.root;
+        String str = "aqw";
+        a.input("abcd");
+        a.input(str);
+        Object key = 'a';
+        assertEquals(true, point.hasChildNode(point));
+    }
+
     @Test
     public void input() {
         PrefixTrie a = new PrefixTrie();
@@ -64,16 +86,16 @@ public class PrefixTrieTest {
     @Test
     public void findAll() {
         PrefixTrie a = new PrefixTrie();
-        a.input("qwerty");
+        // a.input("qwerty");
         a.input("abcd");
-        a.input("abqw");
-        a.input("abfg");
+        // a.input("abqw");
+        // a.input("abfg");
         List<String> answ = new ArrayList<>();
         answ.add("abcd");
-        answ.add("abqw");
-        answ.add("abfg");
+        //answ.add("abqw");
+        // answ.add("abfg");
         assertEquals(true, a.find("abcd"));
-        assertEquals(answ, a.findAll("a"));
+        assertEquals(answ, a.findAll("ab"));
     }
 }
 

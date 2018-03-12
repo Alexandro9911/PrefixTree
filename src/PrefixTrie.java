@@ -1,6 +1,5 @@
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public final class PrefixTrie {
@@ -11,7 +10,6 @@ public final class PrefixTrie {
      * @param str it is a string in tree
      * @return list of nodes of each char of parameter str
      */
-
     public ArrayList<Node> listNodes(String str) {
         Node point = root;
         ArrayList<Node> nodes = new ArrayList<>();
@@ -28,11 +26,9 @@ public final class PrefixTrie {
     }
 
     /**
-     *
      * @param node -- node
      * @return has this node children or not
      */
-
     public boolean hasChild(Node node) {
         Node point = node;
         boolean has;
@@ -42,11 +38,9 @@ public final class PrefixTrie {
     }
 
     /**
-     *
      * @param str string which you want to enter in tree
      * @return Successful or not
      */
-
     public boolean input(String str) {
         Node point = root;
         for (Character PartKey : str.toLowerCase().toCharArray()) {
@@ -59,11 +53,9 @@ public final class PrefixTrie {
     }
 
     /**
-     *
      * @param str your string which you want to find
      * @return exist this string in tree or not
      */
-
     public boolean find(String str) {
         Node point = root;
         for (char part : str.toLowerCase().toCharArray()) {
@@ -77,11 +69,9 @@ public final class PrefixTrie {
     }
 
     /**
-     *
      * @param str string which you want to delete
      * @return Successful or not
      */
-
     public boolean delete(String str) {
         boolean check = PrefixTrie.this.find(str);
         Node point = root;
@@ -103,29 +93,31 @@ public final class PrefixTrie {
     }
 
     /**
-     *
      * @param str its a first symbol of strings
      * @return all strings which have first letter str
      */
-
-    public List<String> findAll(String str) { // не готово еще
+    public List<String> findAll(String str) {
         boolean check = PrefixTrie.this.find(str);
         List<String> answ = new ArrayList<>();
-        Node currentNode = root;
         if (!check) throw new IllegalArgumentException();
         else {
+            List<Node> fnode = listNodes(str);
+            Node currNode = fnode.get(fnode.size() - 1);
             StringBuilder builder = new StringBuilder();
-            List<Node> nodes = listNodes(str);
-            builder.append(nodes.get(0).child.firstKey());
-            currentNode = nodes.get(0);
-            Object[] keyArr = currentNode.child.keySet().toArray();
-            builder.append(keyArr[0]);
-            if (hasChild(currentNode) && currentNode.child.values().size() == 1) {
-
+            Object[] keys = currNode.child.keySet().toArray();
+            Object[] nodes = currNode.childNodes().toArray();
+            while (hasChild(currNode) && currNode.childNodes().size() == 1) {
+                builder.append(keys[0]);
+                currNode = currNode.makeNode(keys[0].toString().toCharArray()[0]);
+                if (!hasChild(currNode)) {
+                    break;
+                }
             }
             answ.add(builder.toString());
             return answ;
         }
     }
+
 }
+
 
