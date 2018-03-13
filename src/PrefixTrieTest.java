@@ -7,6 +7,21 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class PrefixTrieTest {
+
+    @Test
+    public void sizeof() {
+        PrefixTrie a = new PrefixTrie();
+        Node point = a.root;
+        String str = "abcd";
+        a.input(str);
+        a.input("aqwe");
+        a.input("alexandro9911");
+        char[] key = str.toCharArray();
+        Node currNode = point.child.get(key[0]);
+        assertEquals(3, currNode.sizeof());
+    }
+
+
     @Test
     public void childNodes() {
         PrefixTrie a = new PrefixTrie();
@@ -92,7 +107,7 @@ public class PrefixTrieTest {
         // a.input("abfg");
         List<String> answ = new ArrayList<>();
         answ.add("abcd");
-        //answ.add("abqw");
+        // answ.add("abqw");
         // answ.add("abfg");
         assertEquals(true, a.find("abcd"));
         assertEquals(answ, a.findAll("ab"));

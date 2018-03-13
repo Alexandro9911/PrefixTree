@@ -69,55 +69,72 @@ public final class PrefixTrie {
     }
 
     /**
-     * @param str string which you want to delete
-     * @return Successful or not
+     * @param s string which you want to delete
+     * @return success or not
      */
-    public boolean delete(String str) {
-        boolean check = PrefixTrie.this.find(str);
-        Node point = root;
-        if (!check) {
-            return false;
-        } else {
-            List<Node> nodes = listNodes(str);
-            for (int m = nodes.size() - 1; m > 0; m--) {
-                point = nodes.get(m);
-                if (!PrefixTrie.this.hasChild(point)) {
-                    point.child.clear();
-                } else {
-                    Node childNode = nodes.get(m);
-                    point.child.replace(point.child.firstKey(), childNode);
-                }
-            }
-            return true;
+
+    public boolean delete(String s) {
+        Deque<Node> stack = new LinkedList<>();
+        char[] straight = s.toCharArray();
+        Node finder = root;
+        for (char c : straight)
+            if (finder.getch(c) != null) {
+                stack.addFirst(finder);
+                finder = finder.getch(c);
+            } else return false;
+        StringBuilder builder = new StringBuilder(s);
+        builder = builder.reverse();
+        char[] reversed = builder.toString().toCharArray();
+        for (char c : reversed) {
+            Node deleter = stack.removeFirst();
+            if (!deleter.deleteNode(c))
+                return true;
         }
+        return true;
     }
 
     /**
-     * @param str its a first symbol of strings
-     * @return all strings which have first letter str
+     *
+     * @param str prefix
+     * @return all strings which starts from prefix "str"
      */
     public List<String> findAll(String str) {
+        char[] prefix = str.toCharArray();
+        Node currNode = root;
+
         boolean check = PrefixTrie.this.find(str);
         List<String> answ = new ArrayList<>();
+        String firstPart = new String();
+        String partStr = new String();
+        String finalString = new String();
         if (!check) throw new IllegalArgumentException();
         else {
-            List<Node> fnode = listNodes(str);
-            Node currNode = fnode.get(fnode.size() - 1);
-            StringBuilder builder = new StringBuilder();
-            Object[] keys = currNode.child.keySet().toArray();
-            Object[] nodes = currNode.childNodes().toArray();
-            while (hasChild(currNode) && currNode.childNodes().size() == 1) {
-                builder.append(keys[0]);
-                currNode = currNode.makeNode(keys[0].toString().toCharArray()[0]);
-                if (!hasChild(currNode)) {
+            for (char ch : prefix) {
+                if (currNode.getch(ch) == null) {
                     break;
                 }
+                firstPart = firstPart + ch;
+                currNode = currNode.child.get(ch);
+
+                if (!hasChild(currNode)) {
+                    finalString = firstPart + partStr;
+                    answ.add(finalString);
+                    return answ;
+                }
             }
-            answ.add(builder.toString());
-            return answ;
+            while (hasChild(currNode) && currNode.childNodes().size() == 1) {
+                Object[] part = currNode.child.keySet().toArray();
+                char[] next = part[0].toString().toCharArray();
+                currNode = currNode.getch(next[0]);
+                partStr += part[0];
+
+            }
+            while (hasChild(currNode) && currNode.childNodes().size() > 1) {
+
+            }
+            finalString = firstPart + partStr;
+            answ.add(finalString);
         }
+        return answ;
     }
-
 }
-
-

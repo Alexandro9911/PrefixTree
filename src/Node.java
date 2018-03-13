@@ -4,17 +4,17 @@ import java.util.*;
 
 public class Node {
 
-    TreeMap<Character, Node> child = new TreeMap<>();
+    HashMap<Character, Node> child = new HashMap<>();
 
     public Collection<Node> childNodes() {
         return child.values();
     }
 
-    public Node makeNode(Character ch) {
-        return child.get(ch);
+    Node getch(char c) {
+        return child.get(c);
     }
 
-    public TreeMap<Character, Node> getChild() {
+    public HashMap<Character, Node> getChild() {
         return child;
     }
 
@@ -26,21 +26,15 @@ public class Node {
         return has;
     }
 
-    public List<String> getAllStrings(Node node) {
-        List<String> answ = new ArrayList<>();
-        StringBuilder builder = new StringBuilder();
-        Node currNode = node;
-        if (!hasChildNode(currNode)) {
-            answ.add("not found");
-            return answ;
-        }
-        while (currNode.childNodes().size() == 1) {
-            Object[] keys = currNode.child.keySet().toArray();
-            Object[] nodes = currNode.childNodes().toArray();
-            builder.append(keys[0]);
-            currNode = currNode.child.get(nodes[0]);
-        }
-        answ.add(builder.toString());
-        return answ;
+    public int sizeof() {
+        return child.size();
+    }
+
+    boolean deleteNode(char c) {
+        if (child.get(c).sizeof() == 0) {
+            child.remove(c);
+            return true;
+        } else
+            return false;
     }
 }
