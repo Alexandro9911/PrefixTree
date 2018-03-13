@@ -14,13 +14,6 @@ public class Node {
         return child.get(c);
     }
 
-    public boolean hasChildNode(Node node) {
-        Node point = node;
-        boolean has;
-        if (point.child.size() == 0) has = false;
-        else has = true;
-        return has;
-    }
 
     public int sizeof() {
         return child.size();

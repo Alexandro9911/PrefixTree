@@ -33,17 +33,6 @@ public class PrefixTrieTest {
     }
 
     @Test
-    public void hasChildNode() {
-        PrefixTrie a = new PrefixTrie();
-        Node point = a.root;
-        String str = "aqw";
-        a.input("abcd");
-        a.input(str);
-        Object key = 'a';
-        assertEquals(true, point.hasChildNode(point));
-    }
-
-    @Test
     public void input() {
         PrefixTrie a = new PrefixTrie();
         a.input("test");
@@ -113,11 +102,11 @@ public class PrefixTrieTest {
         PrefixTrie a = new PrefixTrie();
         // a.input("qwerty");
         a.input("abcd");
-        a.input("abqw");
+        // a.input("abqw");
         // a.input("abfg");
         List<String> answ = new ArrayList<>();
         answ.add("abcd");
-        answ.add("abqw");
+        // answ.add("abqw");
         // answ.add("abfg");
         assertEquals(true, a.find("abcd"));
         assertEquals(answ, a.findAll("ab"));

@@ -100,7 +100,6 @@ public final class PrefixTrie {
     public List<String> findAll(String str) {
         char[] prefix = str.toCharArray();
         Node currNode = root;
-
         boolean check = PrefixTrie.this.find(str);
         List<String> answ = new ArrayList<>();
         String firstPart = new String();
@@ -109,7 +108,6 @@ public final class PrefixTrie {
 
         Object[] keyArr = currNode.child.keySet().toArray();
         Object[] nodArr = currNode.childNodes().toArray();
-
 
         if (!check) throw new IllegalArgumentException();
         else {
@@ -141,18 +139,14 @@ public final class PrefixTrie {
                         char[] ch = key.toString().toCharArray();
                         currNode = currNode.getch(ch[0]);
                         partStr += ch;
-                        if (currNode.child.keySet().size() == 1) {
-                            while (hasChild(currNode) && currNode.childNodes().size() == 1) {
+                        if (hasChild(currNode) && currNode.childNodes().size() == 1)
+                            while (currNode.childNodes().size() == 1) {
                                 Object[] part = currNode.child.keySet().toArray();
                                 char[] next = part[0].toString().toCharArray();
                                 currNode = currNode.getch(next[0]);
                                 partStr += part[0];
-
                             }
-                        }
-
                     }
-
                 }
                 finalString = firstPart + partStr;
                 answ.add(finalString);
