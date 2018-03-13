@@ -51,6 +51,16 @@ public class PrefixTrieTest {
     }
 
     @Test
+    public void deleteLastNode() {
+        PrefixTrie a = new PrefixTrie();
+        Node currNode = a.root;
+        char[] key = "qwerty".toCharArray();
+        a.input("abcd");
+        a.input("q");
+        assertEquals(true, currNode.deleteLastNode(key[0]));
+    }
+
+    @Test
     public void delete() {
         PrefixTrie a = new PrefixTrie();
         a.input("abcd");
@@ -103,11 +113,11 @@ public class PrefixTrieTest {
         PrefixTrie a = new PrefixTrie();
         // a.input("qwerty");
         a.input("abcd");
-        // a.input("abqw");
+        a.input("abqw");
         // a.input("abfg");
         List<String> answ = new ArrayList<>();
         answ.add("abcd");
-        // answ.add("abqw");
+        answ.add("abqw");
         // answ.add("abfg");
         assertEquals(true, a.find("abcd"));
         assertEquals(answ, a.findAll("ab"));

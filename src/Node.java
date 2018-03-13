@@ -14,10 +14,6 @@ public class Node {
         return child.get(c);
     }
 
-    public HashMap<Character, Node> getChild() {
-        return child;
-    }
-
     public boolean hasChildNode(Node node) {
         Node point = node;
         boolean has;
@@ -30,7 +26,7 @@ public class Node {
         return child.size();
     }
 
-    boolean deleteNode(char c) {
+    boolean deleteLastNode(char c) {
         if (child.get(c).sizeof() == 0) {
             child.remove(c);
             return true;

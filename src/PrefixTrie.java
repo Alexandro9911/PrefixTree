@@ -84,17 +84,16 @@ public final class PrefixTrie {
             } else return false;
         StringBuilder builder = new StringBuilder(s);
         builder = builder.reverse();
-        char[] reversed = builder.toString().toCharArray();
-        for (char c : reversed) {
-            Node deleter = stack.removeFirst();
-            if (!deleter.deleteNode(c))
+        char[] reverse = builder.toString().toCharArray();
+        for (char c : reverse) {
+            Node del = stack.removeFirst();
+            if (!del.deleteLastNode(c))
                 return true;
         }
         return true;
     }
 
     /**
-     *
      * @param str prefix
      * @return all strings which starts from prefix "str"
      */
@@ -107,6 +106,11 @@ public final class PrefixTrie {
         String firstPart = new String();
         String partStr = new String();
         String finalString = new String();
+
+        Object[] keyArr = currNode.child.keySet().toArray();
+        Object[] nodArr = currNode.childNodes().toArray();
+
+
         if (!check) throw new IllegalArgumentException();
         else {
             for (char ch : prefix) {
@@ -122,18 +126,37 @@ public final class PrefixTrie {
                     return answ;
                 }
             }
-            while (hasChild(currNode) && currNode.childNodes().size() == 1) {
-                Object[] part = currNode.child.keySet().toArray();
-                char[] next = part[0].toString().toCharArray();
-                currNode = currNode.getch(next[0]);
-                partStr += part[0];
+            while (hasChild(currNode)) {
+                while (hasChild(currNode) && currNode.childNodes().size() == 1) {
+                    Object[] part = currNode.child.keySet().toArray();
+                    char[] next = part[0].toString().toCharArray();
+                    currNode = currNode.getch(next[0]);
+                    partStr += part[0];
 
-            }
-            while (hasChild(currNode) && currNode.childNodes().size() > 1) {
+                }
+                if (hasChild(currNode) && currNode.childNodes().size() > 1) {
+                    keyArr = currNode.child.keySet().toArray();
+                    nodArr = currNode.childNodes().toArray();
+                    for (Object key : nodArr) {
+                        char[] ch = key.toString().toCharArray();
+                        currNode = currNode.getch(ch[0]);
+                        partStr += ch;
+                        if (currNode.child.keySet().size() == 1) {
+                            while (hasChild(currNode) && currNode.childNodes().size() == 1) {
+                                Object[] part = currNode.child.keySet().toArray();
+                                char[] next = part[0].toString().toCharArray();
+                                currNode = currNode.getch(next[0]);
+                                partStr += part[0];
 
+                            }
+                        }
+
+                    }
+
+                }
+                finalString = firstPart + partStr;
+                answ.add(finalString);
             }
-            finalString = firstPart + partStr;
-            answ.add(finalString);
         }
         return answ;
     }
