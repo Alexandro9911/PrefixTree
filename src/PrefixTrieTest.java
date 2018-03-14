@@ -100,16 +100,34 @@ public class PrefixTrieTest {
     @Test
     public void findAll() {
         PrefixTrie a = new PrefixTrie();
-        // a.input("qwerty");
+        a.input("qwerty");
         a.input("abcd");
         // a.input("abqw");
         // a.input("abfg");
         List<String> answ = new ArrayList<>();
         answ.add("abcd");
-        // answ.add("abqw");
+        //answ.add("abqw");
         // answ.add("abfg");
         assertEquals(true, a.find("abcd"));
         assertEquals(answ, a.findAll("ab"));
+    }
+
+    @Test
+    public void findAllStrings() {
+        String str = "answ";
+        char[] ch = str.toCharArray();
+        PrefixTrie a = new PrefixTrie();
+        a.input("abcd");
+        a.input("aqwe");
+        a.input("asdf");
+        a.input(str);
+        char c = ch[0];
+        List<String> answ = new ArrayList<>();
+        answ.add(str);
+        answ.add("abcd");
+        answ.add("aqwe");
+        answ.add("asdf");
+        assertEquals(answ, a.findAllStrings(c));
     }
 }
 

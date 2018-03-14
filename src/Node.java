@@ -14,8 +14,10 @@ public class Node {
         return child.get(c);
     }
 
-
     public int sizeof() {
+        if (child.size() == 0) {
+            return 0;
+        }
         return child.size();
     }
 
@@ -26,4 +28,5 @@ public class Node {
         } else
             return false;
     }
+
 }

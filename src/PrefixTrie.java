@@ -130,26 +130,50 @@ public final class PrefixTrie {
                     char[] next = part[0].toString().toCharArray();
                     currNode = currNode.getch(next[0]);
                     partStr += part[0];
-
-                }
-                if (hasChild(currNode) && currNode.childNodes().size() > 1) {
-                    keyArr = currNode.child.keySet().toArray();
-                    nodArr = currNode.childNodes().toArray();
-                    for (Object key : nodArr) {
-                        char[] ch = key.toString().toCharArray();
-                        currNode = currNode.getch(ch[0]);
-                        partStr += ch;
-                        if (hasChild(currNode) && currNode.childNodes().size() == 1)
-                            while (currNode.childNodes().size() == 1) {
-                                Object[] part = currNode.child.keySet().toArray();
-                                char[] next = part[0].toString().toCharArray();
-                                currNode = currNode.getch(next[0]);
-                                partStr += part[0];
-                            }
-                    }
                 }
                 finalString = firstPart + partStr;
                 answ.add(finalString);
+            }
+        }
+        return answ;
+    }
+
+    /**
+     * @param ch char
+     * @return List of all possible strings, which starts from char ch
+     */
+
+    public List<String> findAllStrings(char ch) {  // НЕ РОБИТ
+        List<String> answ = new ArrayList<>();
+        String finalString = new String();
+        String partString = new String();
+        String firstString = new String();
+        Object[] keyArr;
+        firstString += ch;
+
+        Node currNode = root.getch(ch);
+
+        keyArr = currNode.child.keySet().toArray();
+
+        if (keyArr.length == 0) {
+            System.out.println("last"); //  далее выводы на консоль для проверки правильности кода
+            finalString = firstString + partString;
+            answ.add(finalString);
+            return answ;
+        } else {
+            System.out.println("length Arr = " + keyArr.length);
+            for (int i = 0; i < keyArr.length; i++) {
+                System.out.println("loop");
+                partString += keyArr[i];
+                System.out.println("currString = " + firstString + partString);
+                char[] c = partString.toCharArray();
+                System.out.println("c[i]= " + c[i]);
+                System.out.println("i=" + i);
+                currNode = currNode.getch(c[i]);
+                keyArr = currNode.child.keySet().toArray();
+                System.out.println("length Arr = " + keyArr.length);
+                answ = findAllStrings(c[i]);
+                return answ;
             }
         }
         return answ;
