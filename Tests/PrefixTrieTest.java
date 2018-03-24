@@ -104,7 +104,7 @@ public class PrefixTrieTest {
 
     @Test
     public void findAllStrings() {
-        String str = "ans";
+        String str = "answ";
         char[] ch = str.toCharArray();
         PrefixTrie a = new PrefixTrie();
         a.input("abcd");
