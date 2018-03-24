@@ -28,4 +28,7 @@ hs_err_pid*
 # IntelliJ project files
 .idea
 out
+PrefixTree.iml
+lib
+src/sample
 gen
