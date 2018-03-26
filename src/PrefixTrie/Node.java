@@ -59,12 +59,12 @@ public class Node {
         for (Map.Entry<Character, Node> child : children.entrySet()) {
             Character character = child.getKey();
             Node node = child.getValue();
-            List<String> a = new ArrayList<>();
+            List<String> part = new ArrayList<>();
             final List<String> partialAnsw = node.getAllWords();
             for (String ans : partialAnsw) {
-                a.add(character + ans);
+                part.add(character + ans);
             }
-            answ.addAll(a);
+            answ.addAll(part);
             if (partialAnsw.size() == 0) {
                 answ.add(character.toString());
             }

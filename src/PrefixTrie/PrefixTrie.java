@@ -97,7 +97,7 @@ public final class PrefixTrie {
         Node currNode = root;
         List<String> answ = new ArrayList<>();
         String firstPart = "";
-        String finalStr = "";
+        String finalString = "";
         for (char ch : prefix) {
             if (currNode.getch(ch) == null) {
                 return answ;
@@ -107,8 +107,8 @@ public final class PrefixTrie {
         }
         List<String> secondPart = currNode.getAllWords();
         for (String part : secondPart) {
-            finalStr = firstPart + part;
-            answ.add(finalStr);
+            finalString = firstPart + part;
+            answ.add(finalString);
         }
         return answ;
     }

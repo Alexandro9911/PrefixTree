@@ -42,7 +42,7 @@ public class PrefixTrieTest {
         assertEquals(true, a.find(testStr1));
         assertEquals(true, a.find(testStr2));
         assertEquals(false, a.find(testStr3));
-        assertEquals(false, a.find("te"));
+        assertEquals(false, a.find("tes"));
 
     }
 
@@ -51,13 +51,13 @@ public class PrefixTrieTest {
         PrefixTrie a = new PrefixTrie();
         a.input("qwerty");
         a.input("abcd");
-        a.input("abqw");
+        a.input("abq");
         a.input("abfg");
         List<String> answ = new ArrayList<>();
         List<String> answ2 = new ArrayList<>();
         answ.add("abcd");
         answ.add("abfg");
-        answ.add("abqw");
+        answ.add("abq");
         assertEquals(true, a.find("abcd"));
         assertEquals(answ, a.findAllStrings("ab"));
         assertEquals(answ2, a.findAllStrings("az"));
