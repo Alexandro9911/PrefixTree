@@ -3,36 +3,11 @@ package PrefixTrie;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class PrefixTrieTest {
-
-    @Test
-    public void sizeof() {
-        PrefixTrie a = new PrefixTrie();
-        Node point = a.root;
-        String str = "abcd";
-        a.input(str);
-        a.input("aqwe");
-        a.input("alexandro9911");
-        char[] key = str.toCharArray();
-        Node currNode = point.children.get(key[0]);
-        assertEquals(3, currNode.sizeof());
-    }
-
-
-    @Test
-    public void childNodes() {
-        PrefixTrie a = new PrefixTrie();
-        Node point = a.root;
-        a.input("abcd");
-        a.input("qwerty");
-        Collection<Node> answ = a.root.childNodes();
-        assertEquals(answ, a.root.childNodes());
-    }
 
     @Test
     public void input() {
@@ -41,16 +16,6 @@ public class PrefixTrieTest {
         assertEquals(true, a.find("test"));
         assertEquals(false, a.input("test"));
         assertEquals(false, a.input(""));
-    }
-
-    @Test
-    public void deleteLastNode() {
-        PrefixTrie a = new PrefixTrie();
-        Node currNode = a.root;
-        char[] key = "qwerty".toCharArray();
-        a.input("abcd");
-        a.input("q");
-        assertEquals(true, currNode.deleteLastNode(key[0]));
     }
 
     @Test
@@ -77,48 +42,25 @@ public class PrefixTrieTest {
         assertEquals(true, a.find(testStr1));
         assertEquals(true, a.find(testStr2));
         assertEquals(false, a.find(testStr3));
-        assertEquals(false, a.find(""));
+        assertEquals(false, a.find("te"));
+
     }
 
     @Test
-    public void listNodes() {
-        PrefixTrie a = new PrefixTrie();
-        String str = "abcd";
-        a.input(str);
-        List<Node> answ = a.listNodes(str);
-        assertEquals(answ, a.listNodes(str));
-    }
-
-    @Test
-    public void findAll() {
+    public void findAllStrings() {
         PrefixTrie a = new PrefixTrie();
         a.input("qwerty");
         a.input("abcd");
         a.input("abqw");
         a.input("abfg");
         List<String> answ = new ArrayList<>();
+        List<String> answ2 = new ArrayList<>();
         answ.add("abcd");
-        answ.add("abqw");
         answ.add("abfg");
+        answ.add("abqw");
         assertEquals(true, a.find("abcd"));
         assertEquals(answ, a.findAllStrings("ab"));
+        assertEquals(answ2, a.findAllStrings("az"));
     }
 
-    @Test
-    public void findAllStrings() {
-        String str = "ans";
-        char[] ch = str.toCharArray();
-        PrefixTrie a = new PrefixTrie();
-        a.input("abcd");
-        a.input("aqwe");
-        a.input("asdf");
-        a.input(str);
-        char c = ch[0];
-        List<String> answ = new ArrayList<>();
-        answ.add(str);
-        answ.add("abcd");
-        answ.add("aqwe");
-        answ.add("asdf");
-        assertEquals(answ, a.root.findAll(c));
-    }
 }

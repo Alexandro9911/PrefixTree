@@ -7,8 +7,8 @@ public final class PrefixTrie {
     Node root = new Node();
 
     /**
-     * @param str it is a string in tree
-     * @return list of nodes of each char of parameter str
+     * @param str string
+     * @return list with Node's of each string-letter
      */
     public List<Node> listNodes(String str) {
         Node point = root;
@@ -26,7 +26,7 @@ public final class PrefixTrie {
     }
 
     /**
-     * @param str string which you want to enter in tree
+     * @param str string to input
      * @return Successful or not
      */
     public boolean input(String str) {
@@ -34,18 +34,20 @@ public final class PrefixTrie {
         if (str.toCharArray().length == 0 || PrefixTrie.this.find(str)) {
             return false;
         }
-        for (Character PartKey : str.toLowerCase().toCharArray()) {
-            if (!point.children.containsKey(PartKey)) {
-                point.children.put(PartKey, new Node());
+        for (Character partKey : str.toLowerCase().toCharArray()) {
+
+            if (!point.children.containsKey(partKey)) {
+                point.children.put(partKey, new Node());
             }
-            point = point.children.get(PartKey);
+            point = point.children.get(partKey);
         }
+        point.last = true;
         return true;
     }
 
     /**
-     * @param str your string which you want to find
-     * @return exist this string in tree or not
+     * @param str string to find
+     * @return contains tree this string or not
      */
     public boolean find(String str) {
         Node point = root;
@@ -59,14 +61,13 @@ public final class PrefixTrie {
                 point = point.children.get(part);
             }
         }
-        return true;
+        return point.last;
     }
 
     /**
-     * @param str string which you want to delete
-     * @return success or not
+     * @param str string to delete
+     * @return successful or not
      */
-
     public boolean delete(String str) {
         boolean check = PrefixTrie.this.find(str);
         Node point = root;
@@ -89,33 +90,25 @@ public final class PrefixTrie {
 
     /**
      * @param str prefix
-     * @return all strings which starts from prefix "str"
+     * @return all strings with this prefix
      */
     public List<String> findAllStrings(String str) {
         char[] prefix = str.toCharArray();
         Node currNode = root;
-        boolean check = PrefixTrie.this.find(str);
         List<String> answ = new ArrayList<>();
         String firstPart = "";
-        String partStr = "";
-        String finalString = "";
-        if (!check) throw new IllegalArgumentException();
-        else {
-            for (char ch : prefix) {
-                if (currNode.getch(ch) == null) {
-                    break;
-                }
-                firstPart = firstPart + ch;
-                currNode = currNode.children.get(ch);
-                if (currNode.childNodes().size() == 0) {
-                    finalString = firstPart + partStr;
-                    answ.add(finalString);
-                    return answ;
-                }
-                currNode.findAll(prefix[prefix.length - 1]);
+        String finalStr = "";
+        for (char ch : prefix) {
+            if (currNode.getch(ch) == null) {
+                return answ;
             }
-            finalString = firstPart + partStr;
-            answ.add(finalString);
+            firstPart = firstPart + ch;
+            currNode = currNode.children.get(ch);
+        }
+        List<String> secondPart = currNode.getAllWords();
+        for (String part : secondPart) {
+            finalStr = firstPart + part;
+            answ.add(finalStr);
         }
         return answ;
     }

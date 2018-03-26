@@ -1,14 +1,14 @@
 package PrefixTrie;
-import java.util.*;
 
+import java.util.*;
 
 public class Node {
 
     TreeMap<Character, Node> children = new TreeMap<>();
-
+    Boolean last = false;
 
     /**
-     * @return Collection of children
+     * @return Collection with children
      */
 
     public Collection<Node> childNodes() {
@@ -25,7 +25,7 @@ public class Node {
     }
 
     /**
-     * @return quantity of children
+     * @return how many children has this node
      */
 
     public int sizeof() {
@@ -44,40 +44,31 @@ public class Node {
         if (children.get(c).sizeof() == 0) {
             children.remove(c);
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     /**
-     * @param ch char
-     * @return all strings with this char
+     *
+     * @return all words of this node
      */
 
-    public List<String> findAll(char ch) {
+    public List<String> getAllWords() {
         List<String> answ = new ArrayList<>();
-        String str = "";
-        Node currNode = new Node();
-        currNode = this.getch(ch);
-        str += ch;
-        Object[] keyArr = currNode.children.keySet().toArray();
-        Object[] keyInt = currNode.children.keySet().toArray();
-        int Q = keyArr.length;
-        if (Q == 0) {
-            answ.add(str);
-            return answ;
-        } else {
-            for (int i = 0; i != Q; i++) {
-                char[] next = keyArr[i].toString().toCharArray();
-                currNode = this.getch(next[0]);
-                keyInt = this.children.keySet().toArray();
-                int N = keyInt.length;
-                if (N == 0) {
-                    str += next[i];
-                } else {
-                    return findAll(next[0]);
-                }
+        for (Map.Entry<Character, Node> child : children.entrySet()) {
+            Character character = child.getKey();
+            Node node = child.getValue();
+            List<String> a = new ArrayList<>();
+            final List<String> partialAnsw = node.getAllWords();
+            for (String ans : partialAnsw) {
+                a.add(character + ans);
             }
-            return answ;
+            answ.addAll(a);
+            if (partialAnsw.size() == 0) {
+                answ.add(character.toString());
+            }
         }
+        return answ;
     }
 }
