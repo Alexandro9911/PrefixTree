@@ -20,7 +20,7 @@ public class PrefixTrieTest {
         answ.add("test1");
         answ.add("testnumber3");
         answ.add("testnumbertest");
-        assertEquals(answ, a.findAllStrings("t"));
+        assertEquals(answ, a.findAllStrings("te"));
     }
 
     @Test
