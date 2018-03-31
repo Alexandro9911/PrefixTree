@@ -10,18 +10,15 @@ public final class PrefixTrie {
      * @param str string
      * @return list with Node's of each string-letter
      */
-    public List<Node> listNodes(String str) {
-        Node point = root;
-        List<Node> nodes = new ArrayList<>();
+    public Deque<Node> listNodes(String str) {
+        Deque<Node> nodes = new LinkedList<>();
         if (str.length() == 0) throw new IllegalArgumentException();
-        for (char part : str.toLowerCase().toCharArray()) {
-            if (!point.children.containsKey(part)) {
-                break;
-            } else {
-                point = point.children.get(part);
-                nodes.add(point);
+        Node currNode = root;
+        for (char ch : str.toLowerCase().toCharArray())
+            if (currNode.getch(ch) != null) {
+                nodes.addFirst(currNode);
+                currNode = currNode.getch(ch);
             }
-        }
         return nodes;
     }
 
@@ -30,18 +27,17 @@ public final class PrefixTrie {
      * @return Successful or not
      */
     public boolean input(String str) {
-        Node point = root;
-        if (str.toCharArray().length == 0 || PrefixTrie.this.find(str)) {
-            return false;
-        }
+        Node currNode = root;
+        int counter = 0;
         for (Character partKey : str.toLowerCase().toCharArray()) {
-
-            if (!point.children.containsKey(partKey)) {
-                point.children.put(partKey, new Node());
+            counter++;
+            if (!currNode.children.containsKey(partKey)) {
+                currNode.children.put(partKey, new Node());
             }
-            point = point.children.get(partKey);
+            currNode = currNode.children.get(partKey);
+            if (currNode.last && counter == str.length()) return false;
         }
-        point.last = true;
+        currNode.last = true;
         return true;
     }
 
@@ -50,18 +46,13 @@ public final class PrefixTrie {
      * @return contains tree this string or not
      */
     public boolean find(String str) {
-        Node point = root;
-        if (str.length() == 0) {
-            return false;
-        }
+        Node currNode = root;
+        if (str.length() == 0) return false;
         for (char part : str.toLowerCase().toCharArray()) {
-            if (!point.children.containsKey(part)) {
-                return false;
-            } else {
-                point = point.children.get(part);
-            }
+            if (!currNode.children.containsKey(part)) return false;
+            currNode = currNode.children.get(part);
         }
-        return point.last;
+        return currNode.last;
     }
 
     /**
@@ -69,23 +60,15 @@ public final class PrefixTrie {
      * @return successful or not
      */
     public boolean delete(String str) {
-        boolean check = PrefixTrie.this.find(str);
-        Node point = root;
-        if (!check) {
-            return false;
-        } else {
-            List<Node> nodes = listNodes(str);
-            for (int m = nodes.size() - 1; m > 0; m--) {
-                point = nodes.get(m);
-                if (point.childNodes().size() == 0) {
-                    point.children.clear();
-                } else {
-                    Node childNode = nodes.get(m);
-                    point.children.replace(point.children.firstKey(), childNode);
-                }
-            }
-            return true;
+        Deque<Node> nodes = listNodes(str);
+        StringBuilder builder = new StringBuilder(str);
+        builder = builder.reverse();
+        char[] reversed = builder.toString().toCharArray();
+        for (char c : reversed) {
+            Node deleter = nodes.removeFirst();
+            deleter.deleteLastNode(c);
         }
+        return true;
     }
 
     /**
@@ -99,10 +82,8 @@ public final class PrefixTrie {
         String firstPart = "";
         String finalString = "";
         for (char ch : prefix) {
-            if (currNode.getch(ch) == null) {
-                return answ;
-            }
-            firstPart = firstPart + ch;
+            if (currNode.getch(ch) == null) return answ;
+            firstPart += ch;
             currNode = currNode.children.get(ch);
         }
         List<String> secondPart = currNode.getAllWords();

@@ -4,44 +4,23 @@ import java.util.*;
 
 public class Node {
 
-    TreeMap<Character, Node> children = new TreeMap<>();
+    Map<Character, Node> children = new HashMap<>();
     Boolean last = false;
-
-    /**
-     * @return Collection with children
-     */
-
-    public Collection<Node> childNodes() {
-        return children.values();
-    }
 
     /**
      * @param c char
      * @return make Node with char c as a current Node
      */
-
-    Node getch(char c) {
+    public Node getch(char c) {
         return children.get(c);
-    }
-
-    /**
-     * @return how many children has this node
-     */
-
-    public int sizeof() {
-        if (children.size() == 0) {
-            return 0;
-        }
-        return children.size();
     }
 
     /**
      * @param c char
      * @return successful or not
      */
-
-    boolean deleteLastNode(char c) {
-        if (children.get(c).sizeof() == 0) {
+    public boolean deleteLastNode(char c) {
+        if (children.get(c).children.keySet().size() == 0) {
             children.remove(c);
             return true;
         } else {
@@ -50,10 +29,8 @@ public class Node {
     }
 
     /**
-     *
      * @return all words of this node
      */
-
     public List<String> getAllWords() {
         List<String> answ = new ArrayList<>();
         for (Map.Entry<Character, Node> child : children.entrySet()) {
