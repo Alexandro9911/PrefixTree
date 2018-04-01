@@ -61,18 +61,21 @@ public final class PrefixTrie {
      */
     public boolean delete(String str) {
         Deque<Node> nodes = listNodes(str);
+        char[] last = str.toLowerCase().toCharArray();
         StringBuilder builder = new StringBuilder(str);
         builder = builder.reverse();
         char[] reversed = builder.toString().toCharArray();
         for (char c : reversed) {
             Node deleter = nodes.removeFirst();
-            deleter.deleteLastNode(c);
+            if (deleter.children.get(c).last) {
+                deleter.children.get(c).last = false;
+            }
+            deleter.deleteNode(c);
         }
         return true;
     }
 
     /**
-     *
      * @param str prefix
      * @return all strings with this prefix
      */

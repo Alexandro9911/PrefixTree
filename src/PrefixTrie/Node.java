@@ -19,7 +19,7 @@ public class Node {
      * @param c char
      * @return successful or not
      */
-    public boolean deleteLastNode(char c) {
+    public boolean deleteNode(char c) {
         if (children.get(c).children.keySet().size() == 0) {
             children.remove(c);
             return true;
@@ -30,7 +30,6 @@ public class Node {
 
     /**
      * @return all words of this node
-     *
      */
     public List<String> getAllWords() {
         List<String> answ = new ArrayList<>();

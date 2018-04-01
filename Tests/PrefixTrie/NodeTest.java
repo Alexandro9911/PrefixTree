@@ -10,13 +10,13 @@ import static org.junit.Assert.assertEquals;
 
 public class NodeTest {
     @Test
-    public void deleteLastNode() {
+    public void deleteNode() {
         PrefixTrie a = new PrefixTrie();
         Node currNode = a.root;
         char[] key = "qwerty".toCharArray();
         a.input("abcd");
         a.input("q");
-        assertEquals(true, currNode.deleteLastNode(key[0]));
+        assertEquals(true, currNode.deleteNode(key[0]));
     }
 
     @Test

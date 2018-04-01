@@ -43,13 +43,17 @@ public class PrefixTrieTest {
         a.input("abcd");
         a.input("abfg");
         a.input("abqw");
+        a.input("abcde");
         a.input("qwerty");
         List<String> answ = new ArrayList<>();
         answ.add("abqw");
+        answ.add("abcde");
         answ.add("abfg");
         assertEquals(true, a.delete("abcd"));
         assertEquals(false, a.find("abcd"));
         assertEquals(answ, a.findAllStrings("a"));
+
+
     }
 
     @Test
