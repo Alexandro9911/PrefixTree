@@ -30,6 +30,7 @@ public class Node {
 
     /**
      * @return all words of this node
+     *
      */
     public List<String> getAllWords() {
         List<String> answ = new ArrayList<>();
