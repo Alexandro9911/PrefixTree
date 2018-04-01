@@ -61,7 +61,6 @@ public final class PrefixTrie {
      */
     public boolean delete(String str) {
         Deque<Node> nodes = listNodes(str);
-        char[] last = str.toLowerCase().toCharArray();
         StringBuilder builder = new StringBuilder(str);
         builder = builder.reverse();
         char[] reversed = builder.toString().toCharArray();
