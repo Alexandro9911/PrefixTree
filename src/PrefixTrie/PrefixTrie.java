@@ -61,15 +61,12 @@ public final class PrefixTrie {
      */
     public boolean delete(String str) {
         Deque<Node> nodes = listNodes(str);
-        StringBuilder builder = new StringBuilder(str);
-        builder = builder.reverse();
-        char[] reversed = builder.toString().toCharArray();
-        for (char c : reversed) {
+        char[] ch = str.toLowerCase().toCharArray();
+        for (int i = str.length() - 1; i != 0; i--) {
             Node deleter = nodes.removeFirst();
-            if (deleter.children.get(c).last) {
-                deleter.children.get(c).last = false;
-            }
-            deleter.deleteNode(c);
+            if (deleter.children.get(ch[i]).last)
+                deleter.children.get(ch[i]).last = false;
+            deleter.deleteNode(ch[i]);
         }
         return true;
     }
