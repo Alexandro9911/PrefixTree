@@ -10,7 +10,7 @@ public final class PrefixTrie {
      * @param str string
      * @return list with Node's of each string-letter
      */
-    public Deque<Node> listNodes(String str) {
+    Deque<Node> listNodes(String str) {
         Deque<Node> nodes = new LinkedList<>();
         if (str.length() == 0) throw new IllegalArgumentException();
         Node currNode = root;
@@ -45,7 +45,7 @@ public final class PrefixTrie {
      * @param str string to find
      * @return contains tree this string or not
      */
-    public boolean find(String str) {
+    public final boolean find(String str) {
         Node currNode = root;
         if (str.length() == 0) return false;
         for (char part : str.toLowerCase().toCharArray()) {
@@ -59,7 +59,7 @@ public final class PrefixTrie {
      * @param str string to delete
      * @return successful or not
      */
-    public boolean delete(String str) {
+    public final boolean delete(String str) {
         Deque<Node> nodes = listNodes(str);
         char[] ch = str.toLowerCase().toCharArray();
         for (int i = str.length() - 1; i != 0; i--) {
@@ -75,7 +75,7 @@ public final class PrefixTrie {
      * @param str prefix
      * @return all strings with this prefix
      */
-    public List<String> findAllStrings(String str) {
+    public final List<String> findAllStrings(String str) {
         char[] prefix = str.toCharArray();
         Node currNode = root;
         List<String> answ = new ArrayList<>();

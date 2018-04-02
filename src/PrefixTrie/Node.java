@@ -2,7 +2,7 @@ package PrefixTrie;
 
 import java.util.*;
 
-public class Node {
+final class Node {
 
     Map<Character, Node> children = new HashMap<>();
     Boolean last = false;
@@ -11,7 +11,7 @@ public class Node {
      * @param c char
      * @return make Node with char c as a current Node
      */
-    public Node getch(char c) {
+    Node getch(char c) {
         return children.get(c);
     }
 
@@ -19,7 +19,7 @@ public class Node {
      * @param c char
      * @return successful or not
      */
-    public boolean deleteNode(char c) {
+    boolean deleteNode(char c) {
         if (children.get(c).children.keySet().size() == 0) {
             children.remove(c);
             return true;
@@ -31,7 +31,7 @@ public class Node {
     /**
      * @return all words of this node
      */
-    public List<String> getAllWords() {
+    List<String> getAllWords() {
         List<String> answ = new ArrayList<>();
         for (Map.Entry<Character, Node> child : children.entrySet()) {
             Character character = child.getKey();
