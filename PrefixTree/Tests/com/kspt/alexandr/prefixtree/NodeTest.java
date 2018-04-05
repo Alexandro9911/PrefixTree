@@ -1,4 +1,4 @@
-package PrefixTrie;
+package com.kspt.alexandr.prefixtree;
 
 import org.junit.Test;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class NodeTest {
+public final class NodeTest {
     @Test
     public void deleteNode() {
         PrefixTrie a = new PrefixTrie();

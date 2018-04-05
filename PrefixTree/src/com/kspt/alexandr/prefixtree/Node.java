@@ -1,4 +1,4 @@
-package PrefixTrie;
+package com.kspt.alexandr.prefixtree;
 
 import java.util.*;
 
